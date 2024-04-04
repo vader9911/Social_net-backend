@@ -1,28 +1,29 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// define user 
-const userSchema = new Schema({
+// define reaction
+const reactionSchema = new Schema({
+  reactionId: {
+    type: Schema.Types.ObjectId,
+    default: () => new mongoose.Types.ObjectId(),
+    required: true
+  },
+  reactionBody: {
+    type: String,
+    required: true,
+    maxlength: 280
+  },
   username: {
     type: String,
-    unique: true,
-    required: true,
-    trim: true
+    required: true
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    // regex for email matching
-    match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-  },
-  thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
-  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  // Set date for current time
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    get: (createdAt) => createdAt.toLocaleString() 
+  }
 });
 
-// virtual to get the number of friends for a user
-userSchema.virtual('friendCount').get(function() {
-  return this.friends.length;
-});
-
-module.exports = mongoose.model('User', userSchema);
+// Export reaction to be used in Thought schema
+module.exports = reactionSchema;
