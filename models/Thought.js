@@ -18,8 +18,9 @@ const thoughtSchema = new Schema({
     type: String,
     required: true
   },
-  reactions: [reactionSchema]
+  reactions: [{ type: Schema.Types.ObjectId, ref: 'Reaction' }]
 });
+
 
 // virtual to get the number of reactions for a comment 
 thoughtSchema.virtual('reactionCount').get(function() {

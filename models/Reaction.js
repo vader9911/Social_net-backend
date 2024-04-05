@@ -25,5 +25,6 @@ const reactionSchema = new Schema({
   }
 });
 
+const Reaction = mongoose.model('Reaction', reactionSchema);
 // Export reaction to be used in Thought schema
-module.exports = reactionSchema;
+module.exports = Reaction;
